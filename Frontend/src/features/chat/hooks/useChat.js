@@ -137,6 +137,8 @@ export const useChat = () => {
     async function handleSendMessage({ message, chatId }) {
         dispatch(setLoading(true))
         const data = await sendMessage({ message, chatId })
+
+        //console.log("API Response:", data);
         const { chat, aiMessage } = data
         if (!chatId)
             dispatch(createNewChat({

@@ -185,7 +185,8 @@ const Dashboard = () => {
             {Object.values(chats).map((chat,index) => (
               <button
                 onClick={()=>{openChat(chat.id)}}
-                key={index}
+                key={chat.id}
+               // key={index}
                 type='button'
                 className='w-full cursor-pointer rounded-xl border border-white/60 bg-transparent px-3 py-2 text-left text-base font-medium text-white/90 transition hover:border-white hover:text-white'
               >

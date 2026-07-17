@@ -145,17 +145,31 @@ export const useChat = () => {
                 chatId: chat._id,
                 title: chat.title,
             }))
+        // dispatch(addNewMessage({
+        //     chatId: chatId || chat._id,
+        //     content: message,
+        //     role: "user",
+        // }))
         dispatch(addNewMessage({
-            chatId: chatId || chat._id,
-            content: message,
-            role: "user",
+              id: crypto.randomUUID(),
+              chatId: chatId || chat._id,
+              content: message,
+              role: "user",
         }))
+
+        // dispatch(addNewMessage({
+        //     chatId: chatId || chat._id,
+        //     content: aiMessage.content,
+        //     role: aiMessage.role,
+        // }))
         dispatch(addNewMessage({
-            chatId: chatId || chat._id,
-            content: aiMessage.content,
-            role: aiMessage.role,
+             id: aiMessage._id,
+             chatId: chatId || chat._id,
+             content: aiMessage.content,
+             role: aiMessage.role,
         }))
-        dispatch(setCurrentChatId(chat._id))
+        //dispatch(setCurrentChatId(chat._id))
+        dispatch(setCurrentChatId(chatId || chat._id))
     }
 
     async function handleGetChats() {
@@ -176,15 +190,20 @@ export const useChat = () => {
 
     async function handleOpenChat(chatId, chats) {
 
-        console.log(chats[ chatId ]?.messages.length)
+        //console.log(chats[ chatId ]?.messages.length)
 
         if (chats[ chatId ]?.messages.length === 0) {
             const data = await getMessages(chatId)
             const { messages } = data
 
+            // const formattedMessages = messages.map(msg => ({
+            //     content: msg.content,
+            //     role: msg.role,
+            // }))
             const formattedMessages = messages.map(msg => ({
-                content: msg.content,
-                role: msg.role,
+                    id: msg._id,
+                    content: msg.content,
+                    role: msg.role,
             }))
 
             dispatch(addMessages({

@@ -170,6 +170,7 @@ export const useChat = () => {
         }))
         //dispatch(setCurrentChatId(chat._id))
         dispatch(setCurrentChatId(chatId || chat._id))
+        dispatch(setLoading(false));
     }
 
     async function handleGetChats() {

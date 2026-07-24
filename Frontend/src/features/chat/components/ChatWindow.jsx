@@ -38,6 +38,10 @@
 // export default ChatWindow;
 
 
+
+import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
+import TypingIndicator from "./TypingIndicator";
 import MessageBubble from "./MessageBubble";
 import EmptyState from "./EmptyState";
 
@@ -45,6 +49,14 @@ import EmptyState from "./EmptyState";
 
 const ChatWindow = ({ chats, currentChatId }) => {
   const messages = chats[currentChatId]?.messages || [];
+  const isLoading = useSelector((state) => state.chat.isLoading);
+  const bottomRef = useRef(null);
+
+  useEffect(() => {
+     bottomRef.current?.scrollIntoView({
+        behavior: "smooth",
+     });
+  }, [messages, isLoading]);
 
 
    if (!currentChatId) {
@@ -61,6 +73,11 @@ const ChatWindow = ({ chats, currentChatId }) => {
             message={message}
           />
         ))}
+
+        {isLoading && <TypingIndicator />}
+
+        <div ref={bottomRef} />
+
       </div>
     </div>
   );

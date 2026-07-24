@@ -1,12 +1,29 @@
+
+
 import { motion } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
+import { useState } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
+
+
 const MessageBubble = ({ message }) => {
   const isUser = message.role === "user";
+
+  const [copied, setCopied] = useState(false);
+
+  const copyCode = async (code) => {
+     await navigator.clipboard.writeText(code);
+
+     setCopied(true);
+
+    setTimeout(() => {
+        setCopied(false);
+    }, 2000);
+  };
 
   return (
     <motion.div
@@ -36,10 +53,17 @@ const MessageBubble = ({ message }) => {
                   return (
                     <div className="relative">
 
-                      <button
+                      {/* <button
                         className="absolute right-3 top-3 rounded-lg bg-black/40 p-2 hover:bg-black/70"
                       >
                         <Copy size={15} />
+                      </button> */}
+
+                      <button
+                           onClick={() => copyCode(String(children).replace(/\n$/, ""))}
+                           className="absolute right-3 top-3 rounded-lg bg-black/40 p-2 transition hover:bg-black/70"
+                      >
+                        {copied ? <Check size={15} /> : <Copy size={15} />}
                       </button>
 
                       <SyntaxHighlighter

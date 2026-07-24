@@ -4,6 +4,7 @@ import {
   Settings,
   User,
   MessageSquare,
+   Trash2,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
@@ -11,7 +12,7 @@ import { motion } from "framer-motion";
 
 
 
-const Sidebar = ({ chats, currentChatId, openChat }) => {
+const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, }) => {
   return (
     <aside className="hidden md:flex h-full w-72 shrink-0 flex-col rounded-3xl border border-white/10 bg-[#080b12]">
 
@@ -88,6 +89,16 @@ const Sidebar = ({ chats, currentChatId, openChat }) => {
                   <span className="truncate">
                      {chat.title}
                   </span>
+
+                  <button
+                     onClick={(e) => {
+                          e.stopPropagation();
+                          handleDeleteChat(chat.id);
+                      }}
+                      className="ml-auto rounded-lg p-2 text-gray-400 transition hover:bg-red-500/20 hover:text-red-400"
+                  >
+                     <Trash2 size={16} />
+                  </button>
                 </motion.button>
             ))}
           </div>

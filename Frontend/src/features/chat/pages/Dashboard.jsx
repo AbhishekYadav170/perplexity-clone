@@ -209,6 +209,7 @@ const Dashboard = () => {
            chats={chats}
            currentChatId={currentChatId}
            openChat={openChat}
+            handleDeleteChat={chat.handleDeleteChat}
         />
 
         <section className='relative flex h-full flex-1 flex-col overflow-hidden '>

@@ -125,7 +125,7 @@
 
 import { initializeSocketConnection } from "../service/chat.socket.js";
 import { sendMessage, getChats, getMessages, deleteChat } from "../service/chat.api.js";
-import { setChats, setCurrentChatId, setError, setLoading, createNewChat, addNewMessage, addMessages } from "../../chat.slice.js";
+import { setChats, setCurrentChatId, setError, setLoading, createNewChat, addNewMessage, addMessages,   deleteChat as deleteChatAction, } from "../../chat.slice.js";
 import { useDispatch } from "react-redux";
 
 
@@ -190,7 +190,6 @@ export const useChat = () => {
     }
 
     async function handleOpenChat(chatId, chats) {
-
         //console.log(chats[ chatId ]?.messages.length)
 
         if (chats[ chatId ]?.messages.length === 0) {
@@ -215,11 +214,27 @@ export const useChat = () => {
         dispatch(setCurrentChatId(chatId))
     }
 
+    async function handleDeleteChat(chatId) {
+        try {
+             dispatch(setLoading(true));
+
+             await deleteChat(chatId);
+
+             dispatch(deleteChatAction(chatId));
+
+        } catch (err) {
+               dispatch(setError(err.message));
+        } finally {
+             dispatch(setLoading(false));
+        }
+    }
+
     return {
         initializeSocketConnection,
         handleSendMessage,
         handleGetChats,
-        handleOpenChat
+        handleOpenChat,
+        handleDeleteChat
     }
 
 }

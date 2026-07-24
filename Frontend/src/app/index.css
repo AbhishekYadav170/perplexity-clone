@@ -1,5 +1,135 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 
 .messages::-webkit-scrollbar {
     display: none;
+} */
+
+
+
+@import "tailwindcss";
+
+/* =========================
+   THEME VARIABLES
+========================= */
+
+:root {
+  --bg: #050816;
+  --surface: rgba(255,255,255,.05);
+  --surface-hover: rgba(255,255,255,.08);
+  --border: rgba(255,255,255,.08);
+
+  --primary: #2563eb;
+  --secondary: #38bdf8;
+
+  --text: #ffffff;
+  --muted: #94a3b8;
+}
+
+/* =========================
+   GLOBAL
+========================= */
+
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter, sans-serif;
+  overflow:hidden;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+.messages::-webkit-scrollbar{
+    width:6px;
+}
+
+.messages::-webkit-scrollbar-thumb{
+    background:#334155;
+    border-radius:20px;
+}
+
+.messages::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+/* =========================
+   GLASS COMPONENTS
+========================= */
+
+.glass{
+    background:rgba(255,255,255,.05);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.08);
+}
+
+.glass-hover:hover{
+    background:rgba(255,255,255,.08);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.primary-btn{
+    background:linear-gradient(135deg,#2563eb,#38bdf8);
+    transition:.3s;
+}
+
+.primary-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 0 30px rgba(37,99,235,.35);
+}
+
+/* =========================
+   INPUT
+========================= */
+
+.input{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    color:white;
+}
+
+.input:focus{
+    outline:none;
+    border-color:#38bdf8;
+}
+
+/* =========================
+   GLOW
+========================= */
+
+.blue-glow{
+    box-shadow:0 0 80px rgba(37,99,235,.25);
+}
+
+/* =========================
+   SELECTION
+========================= */
+
+::selection{
+    background:#2563eb;
+    color:white;
+}
+
+/* =========================
+   SIDEBAR SCROLLBAR
+========================= */
+
+.sidebar-scroll::-webkit-scrollbar{
+    display:none;
+}
+
+.sidebar-scroll{
+    scrollbar-width:none;
 }

@@ -4,15 +4,19 @@ import {
   Settings,
   User,
   MessageSquare,
-   Trash2,
+  Trash2,
+  Pencil,
 } from "lucide-react";
 
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 
 
+const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRenameChat, handleNewChat, }) => {
 
-const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, }) => {
+  const [editingId, setEditingId] = useState(null);
+  const [editingTitle, setEditingTitle] = useState("");
   return (
     <aside className="hidden md:flex h-full w-72 shrink-0 flex-col rounded-3xl border border-white/10 bg-[#080b12]">
 
@@ -26,6 +30,7 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, }) => {
       {/* New Chat */}
       <div className="p-4">
         <motion.button
+             onClick={handleNewChat}
              whileHover={{ scale: 1.03 }}
              whileTap={{ scale: 0.98 }}
              className="
@@ -46,6 +51,7 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, }) => {
                 transition
             "
         >
+          
            <Plus size={18} />     
               New Chat
         </motion.button>
@@ -72,7 +78,7 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, }) => {
 
           <div className="space-y-2"> 
             {Object.values(chats).map((chat) => (
-               <motion.button
+               <motion.div
                     key={chat.id}
                     whileHover={{ x: 6 }}
                     whileTap={{ scale: 0.98 }}
@@ -83,8 +89,8 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, }) => {
                              ? "bg-gradient-to-r from-blue-600/90 to-cyan-500/80 text-white shadow-lg shadow-blue-500/20"
                              : "glass text-gray-300 hover:bg-white/10"
                       }`}
-            >
-                 <MessageSquare size={18} className="shrink-0" />
+              >
+                 {/* <MessageSquare size={18} className="shrink-0" />
 
                   <span className="truncate">
                      {chat.title}
@@ -98,8 +104,59 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, }) => {
                       className="ml-auto rounded-lg p-2 text-gray-400 transition hover:bg-red-500/20 hover:text-red-400"
                   >
                      <Trash2 size={16} />
+                  </button> */}
+
+                  <MessageSquare size={18} className="shrink-0" />
+
+                  {editingId === chat.id ? (
+                    <input
+                        autoFocus
+                         value={editingTitle}
+                        onClick={(e) => e.stopPropagation()}
+                        onChange={(e) => setEditingTitle(e.target.value)}
+                         onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                  if (editingTitle.trim()) {
+                                      handleRenameChat(chat.id, editingTitle.trim());
+                                  }
+                                  setEditingId(null);
+                            }
+
+                            if (e.key === "Escape") {
+                                 setEditingId(null);
+                            }
+                          }}
+                          onBlur={() => setEditingId(null)}
+                          className="flex-1 rounded-lg border border-blue-500/30 bg-black/30 px-2 py-1 text-sm text-white outline-none"
+                    />
+                  ) : (
+                    <span className="flex-1 truncate">
+                        {chat.title}
+                    </span>
+                  )}
+
+                  <button
+                      onClick={(e) => {
+                         e.stopPropagation();
+
+                         setEditingId(chat.id);
+                         setEditingTitle(chat.title);
+                      }}
+                     className="rounded-lg p-2 text-gray-400 transition hover:bg-white/10 hover:text-white"
+                  >
+                    <Pencil size={15} />
                   </button>
-                </motion.button>
+
+                  <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                         handleDeleteChat(chat.id);
+                      }}
+                      className="rounded-lg p-2 text-gray-400 transition hover:bg-red-500/20 hover:text-red-400"
+                  >
+                     <Trash2 size={16} />
+                 </button>
+              </motion.div>
             ))}
           </div>
 

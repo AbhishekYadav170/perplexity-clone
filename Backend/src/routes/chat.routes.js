@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { sendMessage, getChats, getMessages, deleteChat } from "../controllers/chat.controller.js";
+import { sendMessage, getChats, getMessages, deleteChat, renameChat, } from "../controllers/chat.controller.js";
 import {authUser} from "../middleware/auth.middleware.js"
 
 
@@ -12,6 +12,10 @@ chatRouter.get("/", authUser, getChats)
 
 chatRouter.get("/:chatId/messages", authUser, getMessages)
 
-chatRouter.delete("/delete/:chatId/", authUser, deleteChat)
+chatRouter.delete("/delete/:chatId", authUser, deleteChat);
+
+
+chatRouter.patch("/rename/:chatId", authUser, renameChat);
+
 
 export default chatRouter;

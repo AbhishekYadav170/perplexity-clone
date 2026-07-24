@@ -124,8 +124,8 @@
 
 
 import { initializeSocketConnection } from "../service/chat.socket.js";
-import { sendMessage, getChats, getMessages, deleteChat } from "../service/chat.api.js";
-import { setChats, setCurrentChatId, setError, setLoading, createNewChat, addNewMessage, addMessages,   deleteChat as deleteChatAction, } from "../../chat.slice.js";
+import { sendMessage, getChats, getMessages, deleteChat , renameChat  } from "../service/chat.api.js";
+import { setChats, setCurrentChatId, setError, setLoading, createNewChat, addNewMessage, addMessages,   deleteChat as deleteChatAction,  renameChat as renameChatAction , } from "../../chat.slice.js";
 import { useDispatch } from "react-redux";
 
 
@@ -214,6 +214,10 @@ export const useChat = () => {
         dispatch(setCurrentChatId(chatId))
     }
 
+    function handleNewChat() {
+            dispatch(setCurrentChatId(null));
+    }
+
     async function handleDeleteChat(chatId) {
         try {
              dispatch(setLoading(true));
@@ -229,12 +233,35 @@ export const useChat = () => {
         }
     }
 
+    async function handleRenameChat(chatId, title) {
+       try {
+          dispatch(setLoading(true));
+
+          await renameChat(chatId, title);
+
+          dispatch(
+              renameChatAction({
+                  chatId,
+                  title,
+               })
+           );
+
+        } catch (err) {
+            dispatch(setError(err.message));
+        } finally {
+             dispatch(setLoading(false));
+        }
+    }
+
+
     return {
         initializeSocketConnection,
         handleSendMessage,
         handleGetChats,
         handleOpenChat,
-        handleDeleteChat
+        handleDeleteChat,
+        handleRenameChat,
+        handleNewChat,
     }
 
 }

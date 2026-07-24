@@ -140,7 +140,8 @@
 
 
 
-
+//import { useDispatch } from "react-redux";
+//import { setCurrentChatId } from "../chat.slice";
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { useSelector } from 'react-redux'
@@ -155,12 +156,13 @@ import ChatWindow from "../components/ChatWindow";
 
 
 
-
 const Dashboard = () => {
   const chat = useChat()
+   //const dispatch = useDispatch();  
   const [ chatInput, setChatInput ] = useState('')
   const chats = useSelector((state) => state.chat.chats)
   const currentChatId = useSelector((state) => state.chat.currentChatId)
+
 
   useEffect(() => {
     chat.initializeSocketConnection()
@@ -210,6 +212,8 @@ const Dashboard = () => {
            currentChatId={currentChatId}
            openChat={openChat}
             handleDeleteChat={chat.handleDeleteChat}
+            handleRenameChat={chat.handleRenameChat}
+            handleNewChat={chat.handleNewChat}
         />
 
         <section className='relative flex h-full flex-1 flex-col overflow-hidden '>

@@ -1,10 +1,29 @@
 import { X, User, Mail, Crown, Calendar, MessageSquare, Bot, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
-import { logout } from "../service/auth.api";
+import { useEffect, useState } from "react";
+import { logout, getMe } from "../service/auth.api";
 
 
 
 const ProfileModal = ({ open, onClose, chats }) => {
+
+   const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        if (!open) return;
+
+        const fetchUser = async () => {
+            try {
+                const data = await getMe();
+                setUser(data.user);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        fetchUser();
+    }, [open]);
+
   if (!open) return null;
 
   return (
@@ -31,11 +50,11 @@ const ProfileModal = ({ open, onClose, chats }) => {
         {/* Avatar */}
         <div className="mb-6 flex flex-col items-center">
           <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 text-3xl font-bold">
-            A
+            {user?.username?.charAt(0).toUpperCase() || "A"}
           </div>
 
           <h3 className="mt-4 text-lg font-semibold text-white">
-            Abhishek Yadav
+            {user?.username || "Loading..."}
           </h3>
 
           <p className="text-gray-400">
@@ -51,7 +70,7 @@ const ProfileModal = ({ open, onClose, chats }) => {
             <div>
               <p className="text-xs text-gray-400">Email</p>
               <p className="text-white">
-                sethyadav169@gmail.com
+                {user?.email || "Loading..."}
               </p>
             </div>
           </div>
@@ -69,7 +88,9 @@ const ProfileModal = ({ open, onClose, chats }) => {
             <div>
               <p className="text-xs text-gray-400">Joined</p>
               <p className="text-white">
-                July 2026
+                {user?.createdAt
+                   ? new Date(user.createdAt).toLocaleDateString()
+                   : "Loading..."}
               </p>
             </div>
           </div>

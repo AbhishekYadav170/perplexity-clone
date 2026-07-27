@@ -14,7 +14,7 @@ import { useState } from "react";
 
 
 const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRenameChat, handleNewChat, searchQuery,
-  setSearchQuery, setShowSettings, }) => {
+  setSearchQuery, setShowSettings,  setShowProfile, }) => {
 
   const [editingId, setEditingId] = useState(null);
   const [editingTitle, setEditingTitle] = useState("");
@@ -186,11 +186,11 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRena
 
               <div className="flex-1 overflow-hidden">
                  <p className="truncate font-semibold text-white">
-                      Abhishek
+                      Abhishek Yadav
                  </p>
 
                <p className="truncate text-xs text-gray-400">
-                   Frontend Developer
+                   Mern Stack Developer
                </p>
            </div>
        </div>
@@ -202,7 +202,9 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRena
               Settings
         </button>
 
-       <button className="flex w-full items-center gap-3 rounded-xl p-3 text-gray-300 transition hover:bg-white/5">
+       <button 
+           onClick={() => setShowProfile(true)}
+           className="flex w-full items-center gap-3 rounded-xl p-3 text-gray-300 transition hover:bg-white/5">
            <User size={18} />
                Profile
        </button>

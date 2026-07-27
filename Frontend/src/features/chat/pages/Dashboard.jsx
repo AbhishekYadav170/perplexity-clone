@@ -152,6 +152,8 @@ import Header from "../components/Header";
 import AuroraBackground from "../components/AuroraBackground";
 import MessageBubble from "../components/MessageBubble";
 import ChatWindow from "../components/ChatWindow";
+import ProfileModal from "../components/ProfileModal";
+
 
 
 
@@ -161,6 +163,7 @@ const Dashboard = () => {
   const [ chatInput, setChatInput ] = useState('')
   const [searchQuery, setSearchQuery] = useState("");
   const [showSettings, setShowSettings] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
 
 
   const chats = useSelector((state) => state.chat.chats)
@@ -202,7 +205,8 @@ const Dashboard = () => {
             handleNewChat={chat.handleNewChat}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
-             setShowSettings={setShowSettings}
+            setShowSettings={setShowSettings}
+            setShowProfile={setShowProfile}
         />
 
         <section className='relative flex h-full flex-1 flex-col overflow-hidden '>
@@ -308,7 +312,11 @@ const Dashboard = () => {
     </div>
   </div>
 )}
-      
+      <ProfileModal
+          open={showProfile}
+          onClose={() => setShowProfile(false)}
+          chats={chats}
+      />
     </main>
   )
 }

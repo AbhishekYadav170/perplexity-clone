@@ -13,10 +13,14 @@ import { useState } from "react";
 
 
 
-const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRenameChat, handleNewChat, }) => {
+const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRenameChat, handleNewChat, searchQuery,
+  setSearchQuery, setShowSettings, }) => {
 
   const [editingId, setEditingId] = useState(null);
   const [editingTitle, setEditingTitle] = useState("");
+  //
+  // 
+  // const [searchQuery, setSearchQuery] = useState("");
   return (
     <aside className="hidden md:flex h-full w-72 shrink-0 flex-col rounded-3xl border border-white/10 bg-[#080b12]">
 
@@ -63,7 +67,10 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRena
           <Search size={18} className="text-gray-400" />
 
           <input
-            placeholder="Search..."
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search chats..."
             className="flex-1 bg-transparent text-white outline-none placeholder:text-gray-500"
           />
         </div>
@@ -77,7 +84,12 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRena
           </p>
 
           <div className="space-y-2"> 
-            {Object.values(chats).map((chat) => (
+            {Object.values(chats)
+              .filter((chat) =>
+                 chat.title.toLowerCase().includes(searchQuery.toLowerCase())
+                
+              )
+              .map((chat) => (
                <motion.div
                     key={chat.id}
                     whileHover={{ x: 6 }}
@@ -183,7 +195,9 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRena
            </div>
        </div>
 
-       <button className="mb-2 flex w-full items-center gap-3 rounded-xl p-3 text-gray-300 transition hover:bg-white/5">
+       <button 
+           onClick={() => setShowSettings(true)}
+           className="mb-2 flex w-full items-center gap-3 rounded-xl p-3 text-gray-300 transition hover:bg-white/5">
            <Settings size={18} />
               Settings
         </button>

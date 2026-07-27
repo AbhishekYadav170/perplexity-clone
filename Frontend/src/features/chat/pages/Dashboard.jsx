@@ -140,8 +140,7 @@
 
 
 
-//import { useDispatch } from "react-redux";
-//import { setCurrentChatId } from "../chat.slice";
+
 import React, { useEffect, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { useSelector } from 'react-redux'
@@ -160,6 +159,10 @@ const Dashboard = () => {
   const chat = useChat()
    //const dispatch = useDispatch();  
   const [ chatInput, setChatInput ] = useState('')
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showSettings, setShowSettings] = useState(false);
+
+
   const chats = useSelector((state) => state.chat.chats)
   const currentChatId = useSelector((state) => state.chat.currentChatId)
 
@@ -189,23 +192,6 @@ const Dashboard = () => {
     <main className='min-h-screen w-full bg-[#07090f] p-3 text-white md:p-5 mx-auto flex'>
       
       <section className='mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border   p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none'>
-        {/* <aside className='hidden h-full w-72 shrink-0 rounded-3xl border  bg-[#080b12] p-4 md:flex md:flex-col'>
-          <h1 className='mb-5 text-3xl font-semibold tracking-tight'>Perplexity</h1>
-
-          <div className='space-y-2'>
-            {Object.values(chats).map((chat,index) => (
-              <button
-                onClick={()=>{openChat(chat.id)}}
-                key={chat.id}
-               // key={index}
-                type='button'
-                className='w-full cursor-pointer rounded-xl border border-white/60 bg-transparent px-3 py-2 text-left text-base font-medium text-white/90 transition hover:border-white hover:text-white'
-              >
-                {chat.title}
-              </button>
-            ))}
-          </div>
-        </aside> */}
         <AuroraBackground />
         <Sidebar
            chats={chats}
@@ -214,46 +200,19 @@ const Dashboard = () => {
             handleDeleteChat={chat.handleDeleteChat}
             handleRenameChat={chat.handleRenameChat}
             handleNewChat={chat.handleNewChat}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+             setShowSettings={setShowSettings}
         />
 
         <section className='relative flex h-full flex-1 flex-col overflow-hidden '>
 
           <div className='relative z-8'>
-            <Header />
+            <Header 
+               searchQuery={searchQuery}
+               setSearchQuery={setSearchQuery}
+            />
           </div>
-
-          {/* <div className='messages flex-1 space-y-5 overflow-y-auto pr-4 pb-32 pt-2'>
-            {chats[ currentChatId ]?.messages.map((message) => (
-              // <div
-              //   key={message.id}
-              //   className={`max-w-[82%] w-fit rounded-2xl px-4 py-3 text-sm md:text-base ${message.role === 'user'
-              //       ? 'ml-auto rounded-br-none bg-white/12 text-white'
-              //       : 'mr-auto border-none text-white/90'
-              //     }`}
-              // >
-              //   {message.role === 'user' ? (
-              //     <p>{message.content}</p>
-              //   ) : (
-              //     <ReactMarkdown
-              //       components={{
-              //         p: ({ children }) => <p className='mb-2 last:mb-0'>{children}</p>,
-              //         ul: ({ children }) => <ul className='mb-2 list-disc pl-5'>{children}</ul>,
-              //         ol: ({ children }) => <ol className='mb-2 list-decimal pl-5'>{children}</ol>,
-              //         code: ({ children }) => <code className='rounded bg-white/10 px-1 py-0.5'>{children}</code>,
-              //         pre: ({ children }) => <pre className='mb-2 overflow-x-auto rounded-xl bg-black/30 p-3'>{children}</pre>
-              //       }}
-              //       remarkPlugins={[remarkGfm]}
-              //     >
-              //       {message.content}
-              //     </ReactMarkdown>
-              //   )}
-              // </div>
-               <MessageBubble
-                  key={message.id}
-                  message={message}
-               />
-            ))}
-          </div> */}
 
           <div className="flex-1 min-h-0 overflow-hidden">
                <ChatWindow
@@ -262,25 +221,6 @@ const Dashboard = () => {
                 />
           </div>
 
-          {/* <footer className='rounded-3xl w-full absolute bottom-2 border border-white/60 bg-[#080b12] p-4 md:p-5'>
-            <form onSubmit={handleSubmitMessage} className='flex flex-col gap-3 md:flex-row'>
-              <input
-                type='text'
-                value={chatInput}
-                onChange={(event) => setChatInput(event.target.value)}
-                placeholder='Type your message...'
-                className='w-full rounded-2xl border border-white/50 bg-transparent px-4 py-3 text-lg text-white outline-none transition placeholder:text-white/45 focus:border-white/90'
-              />
-              <button
-                type='submit'
-                disabled={!chatInput.trim()}
-                className='rounded-2xl border border-white/60 px-6 py-3 text-lg font-semibold text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50'
-              >
-                Send
-              </button>
-            </form>
-          </footer> */}
-          
               <ChatInput
                  chatInput={chatInput}
                  setChatInput={setChatInput}
@@ -289,6 +229,85 @@ const Dashboard = () => {
           
         </section>
       </section>
+      {showSettings && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+    <div className="w-[520px] rounded-3xl border border-white/10 bg-[#0f172a] p-7 shadow-2xl">
+
+      <h2 className="mb-6 text-3xl font-bold text-white">
+        ⚙ Settings
+      </h2>
+
+      <div className="space-y-6">
+
+        <div>
+          <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+            Appearance
+          </h3>
+
+          <div className="rounded-xl bg-white/5 p-4">
+            <p className="text-white">Theme</p>
+            <p className="text-sm text-gray-400">
+              Dark Mode
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+            AI Model
+          </h3>
+
+          <div className="rounded-xl bg-white/5 p-4">
+            <p className="text-white">
+              Gemini Flash
+            </p>
+
+            <p className="text-sm text-gray-400">
+              Default AI Model
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+            Chat
+          </h3>
+
+          <div className="rounded-xl bg-white/5 p-4 space-y-2">
+            <p className="text-white">
+              ✅ Auto Scroll Enabled
+            </p>
+
+            <p className="text-white">
+              ✅ Code Highlight Enabled
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="mb-2 text-lg font-semibold text-red-400">
+            Danger Zone
+          </h3>
+
+          <button
+            className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white hover:bg-red-700"
+          >
+            Clear All Chats
+          </button>
+        </div>
+
+      </div>
+
+      <button
+        onClick={() => setShowSettings(false)}
+        className="mt-8 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700"
+      >
+        Close
+      </button>
+
+    </div>
+  </div>
+)}
       
     </main>
   )

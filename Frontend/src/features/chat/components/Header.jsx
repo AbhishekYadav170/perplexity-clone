@@ -1,7 +1,9 @@
 import { Bell, Sparkles, Search } from "lucide-react";
 import { motion } from "framer-motion";
 
-const Header = () => {
+const Header = ({searchQuery, setSearchQuery,
+
+}) => {
   return (
     <motion.header
       initial={{ y: -25, opacity: 0 }}
@@ -42,6 +44,9 @@ const Header = () => {
         />
 
         <input
+          type="text"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search..."
           className="flex-1 bg-transparent outline-none text-white placeholder:text-gray-500"
         />

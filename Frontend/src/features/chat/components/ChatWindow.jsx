@@ -18,25 +18,6 @@
 
 
 
-// import MessageBubble from "./MessageBubble";
-
-// const ChatWindow = ({ chats, currentChatId }) => {
-//   return (
-//     <div className="messages flex-1 overflow-y-auto px-6 py-6">
-//       <div className="mx-auto flex max-w-5xl flex-col gap-5 pb-40">
-//         {chats[currentChatId]?.messages.map((message) => (
-//           <MessageBubble
-//             key={message.id}
-//             message={message}
-//           />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default ChatWindow;
-
 
 
 import { useEffect, useRef } from "react";

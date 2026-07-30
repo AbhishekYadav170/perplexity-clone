@@ -102,21 +102,7 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRena
                              : "glass text-gray-300 hover:bg-white/10"
                       }`}
               >
-                 {/* <MessageSquare size={18} className="shrink-0" />
-
-                  <span className="truncate">
-                     {chat.title}
-                  </span>
-
-                  <button
-                     onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteChat(chat.id);
-                      }}
-                      className="ml-auto rounded-lg p-2 text-gray-400 transition hover:bg-red-500/20 hover:text-red-400"
-                  >
-                     <Trash2 size={16} />
-                  </button> */}
+               
 
                   <MessageSquare size={18} className="shrink-0" />
 

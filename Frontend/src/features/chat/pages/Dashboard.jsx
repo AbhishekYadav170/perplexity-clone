@@ -153,18 +153,19 @@ import AuroraBackground from "../components/AuroraBackground";
 import MessageBubble from "../components/MessageBubble";
 import ChatWindow from "../components/ChatWindow";
 import ProfileModal from "../components/ProfileModal";
-
+import { useTheme } from "../../../context/ThemeContext";
 
 
 
 const Dashboard = () => {
   const chat = useChat()
+  const { theme, toggleTheme } = useTheme();
    //const dispatch = useDispatch();  
   const [ chatInput, setChatInput ] = useState('')
   const [searchQuery, setSearchQuery] = useState("");
   const [showSettings, setShowSettings] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-
+  //const [theme, setTheme] = useState("dark");
 
   const chats = useSelector((state) => state.chat.chats)
   const currentChatId = useSelector((state) => state.chat.currentChatId)
@@ -192,7 +193,13 @@ const Dashboard = () => {
   }
 
   return (
-    <main className='min-h-screen w-full bg-[#07090f] p-3 text-white md:p-5 mx-auto flex'>
+    <main 
+        className={`min-h-screen w-full p-3 md:p-5 mx-auto flex transition-all duration-500 ${
+           theme === "dark"
+             ? "bg-[#07090f] text-white"
+             : "bg-gray-100 text-black"
+        }`}
+    >
       
       <section className='mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border   p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none'>
         <AuroraBackground />
@@ -207,6 +214,8 @@ const Dashboard = () => {
             setSearchQuery={setSearchQuery}
             setShowSettings={setShowSettings}
             setShowProfile={setShowProfile}
+            // theme={theme}
+            // setTheme={setTheme}
         />
 
         <section className='relative flex h-full flex-1 flex-col overflow-hidden '>
@@ -240,10 +249,10 @@ const Dashboard = () => {
       <h2 className="mb-6 text-3xl font-bold text-white">
         ⚙ Settings
       </h2>
-
+      
       <div className="space-y-6">
 
-        <div>
+        {/* <div>
           <h3 className="mb-2 text-lg font-semibold text-cyan-400">
             Appearance
           </h3>
@@ -254,7 +263,79 @@ const Dashboard = () => {
               Dark Mode
             </p>
           </div>
-        </div>
+        </div> */}
+
+        {/* <div>
+           <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+                  Appearance
+           </h3>
+
+       <div className="flex items-center justify-between rounded-xl bg-white/5 p-4">
+
+        <div>
+          <p className="text-white">
+            Theme
+         </p>
+
+         <p className="text-sm text-gray-400">
+             Switch between Dark & Light mode
+        </p>
+     </div>
+
+      <button
+         onClick={toggleTheme}
+        //  {() =>
+        //    //setTheme(theme === "dark" ? "light" : "dark")
+           
+        //   }
+       className="rounded-xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+       >
+         {theme === "dark"
+         ? "🌙 Dark"
+         : "☀️ Light"}
+     </button>
+
+     </div>
+        </div> */}
+        <div>
+  <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+    Appearance
+  </h3>
+
+  <div className=
+  //"rounded-xl bg-red-500 p-4 flex items-center justify-between"
+  "rounded-xl bg-white/5 p-4 flex items-center justify-between"
+  >
+
+    <div>
+      <p className="text-white font-medium">
+        Theme
+      </p>
+
+      <p className="text-sm text-gray-400">
+        Switch between Dark & Light mode
+      </p>
+    </div>
+
+     <button
+      onClick={toggleTheme}
+      className={`rounded-xl px-5 py-2 font-semibold transition ${
+        theme === "dark"
+          ? "bg-cyan-500 text-white"
+          : "bg-yellow-400 text-black"
+      }`}
+    >
+      {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
+    </button>
+
+{/* <button
+  onClick={toggleTheme}
+  className="bg-green-500 p-3"
+>
+  CLICK ME
+</button> */}
+  </div>
+</div>
 
         <div>
           <h3 className="mb-2 text-lg font-semibold text-cyan-400">

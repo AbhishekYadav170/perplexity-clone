@@ -15,7 +15,7 @@
 // )
 
 
-
+import { ThemeProvider } from "./context/ThemeContext";
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './app/index.css'
@@ -25,6 +25,9 @@ import { Provider } from 'react-redux'
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
-    <App />
+    <ThemeProvider>
+           <App />
+    </ThemeProvider>
+    
   </Provider>
 )

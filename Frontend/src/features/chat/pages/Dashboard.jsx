@@ -375,6 +375,15 @@ const Dashboard = () => {
           </h3>
 
           <button
+             onClick={async () => {
+                const confirmed = window.confirm(
+                  "Are you sure you want to delete all chats?"
+                );
+
+                if (!confirmed) return;
+
+               await chat.handleClearChats();
+             }}
             className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white hover:bg-red-700"
           >
             Clear All Chats

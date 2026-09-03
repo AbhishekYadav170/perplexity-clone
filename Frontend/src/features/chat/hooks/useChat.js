@@ -52,8 +52,8 @@
 
 
 import { initializeSocketConnection } from "../service/chat.socket.js";
-import { sendMessage, getChats, getMessages, deleteChat , renameChat  } from "../service/chat.api.js";
-import { setChats, setCurrentChatId, setError, setLoading, createNewChat, addNewMessage, addMessages,   deleteChat as deleteChatAction,  renameChat as renameChatAction , } from "../../chat.slice.js";
+import { sendMessage, getChats, getMessages, deleteChat , renameChat, clearAllChats  } from "../service/chat.api.js";
+import { setChats, setCurrentChatId, setError, setLoading, createNewChat, addNewMessage, addMessages,   deleteChat as deleteChatAction,  renameChat as renameChatAction , clearChats, } from "../../chat.slice.js";
 import { useDispatch } from "react-redux";
 
 
@@ -181,6 +181,21 @@ export const useChat = () => {
         }
     }
 
+    async function handleClearChats() {
+        try {
+            dispatch(setLoading(true));
+
+            await clearAllChats();
+
+           dispatch(clearChats());
+
+        } catch (err) {
+              dispatch(setError(err.message));
+        } finally {
+            dispatch(setLoading(false));
+        }
+    }
+
 
     return {
         initializeSocketConnection,
@@ -189,6 +204,7 @@ export const useChat = () => {
         handleOpenChat,
         handleDeleteChat,
         handleRenameChat,
+        handleClearChats,
         handleNewChat,
     }
 

@@ -387,3 +387,37 @@ export async function renameChat(req, res) {
         chat
     });
 }
+
+export async function clearAllChats(req, res) {
+    try {
+
+        // Sirf logged-in user ke chats delete honge
+        const chats = await chatModel.find({
+            user: req.user.id
+        });
+
+        const chatIds = chats.map(chat => chat._id);
+
+        // Pehle messages delete
+        await messageModel.deleteMany({
+            chat: { $in: chatIds }
+        });
+
+        // Phir chats delete
+        await chatModel.deleteMany({
+            user: req.user.id
+        });
+
+        res.status(200).json({
+            message: "All chats deleted successfully"
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            message: "Failed to delete all chats",
+            error: error.message
+        });
+
+    }
+}

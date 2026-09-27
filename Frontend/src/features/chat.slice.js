@@ -63,10 +63,6 @@ const chatSlice = createSlice({
                 lastUpdated: new Date().toISOString(),
             }
         },
-        // addNewMessage: (state, action) => {
-        //     const { chatId, content, role } = action.payload
-        //     state.chats[ chatId ].messages.push({ content, role })
-        // },
         addNewMessage: (state, action) => {
               const { id, chatId, content, role } = action.payload;
 

@@ -1,24 +1,3 @@
-// // import MessageBubble from "./MessageBubble";
-
-// // const ChatWindow = ({ chats, currentChatId }) => {
-// //   return (
-// //     <div className="messages h-full overflow-y-auto px-4 pt-4 pb-36 space-y-5">
-// //       {chats[currentChatId]?.messages.map((message) => (
-// //         <MessageBubble
-// //           key={message.id}
-// //           message={message}
-// //         />
-// //       ))}
-// //     </div>
-// //   );
-// // };
-
-// // export default ChatWindow;
-
-
-
-
-
 
 // import { useEffect, useRef } from "react";
 // import { useSelector } from "react-redux";

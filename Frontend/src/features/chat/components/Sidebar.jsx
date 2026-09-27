@@ -18,9 +18,8 @@ const Sidebar = ({ chats, currentChatId, openChat,  handleDeleteChat, handleRena
 
   const [editingId, setEditingId] = useState(null);
   const [editingTitle, setEditingTitle] = useState("");
-  //
-  // 
-  // const [searchQuery, setSearchQuery] = useState("");
+
+  
   return (
     <aside className="hidden md:flex h-full w-72 shrink-0 flex-col rounded-3xl border border-white/10 bg-[#080b12]">
 

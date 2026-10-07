@@ -60,16 +60,41 @@ export async function getMe() {
     return response.data;
 }
 
-export async function logout() {
-    try {
-        const response = await api.post("/api/auth/logout");
+// export async function logout() {
+//     try {
+//         const response = await api.post("/api/auth/logout");
 
-        // Local token bhi remove karo
+//         // Local token bhi remove karo
+//         localStorage.removeItem("token");
+
+//         return response.data;
+//     } catch (error) {
+//         // Backend logout fail ho tab bhi local token remove ho
+//         localStorage.removeItem("token");
+//         throw error;
+//     }
+// }
+
+
+export async function logout() {
+    const token = localStorage.getItem("token");
+
+    try {
+        const response = await api.post(
+            "/api/auth/logout",
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+
         localStorage.removeItem("token");
 
         return response.data;
     } catch (error) {
-        // Backend logout fail ho tab bhi local token remove ho
+        // Backend logout fail ho tab bhi local token remove karo
         localStorage.removeItem("token");
         throw error;
     }

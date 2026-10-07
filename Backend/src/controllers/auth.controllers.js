@@ -38,7 +38,7 @@ export async function register(req,res) {
                  <p>Thank you for registering at <strong>Perplexity</strong>.
                  We're extited to have you on board!.</p>
                  <p>Please verify your email address by clicking the link below:</p>
-                 <a href="http://localhost:3000/api/auth/verify-email?token=${emailVerificationToken}"> verify Email</a>
+                  <a href="https://perplexity-clone-pvgw.onrender.com/api/auth/verify-email?token=${emailVerificationToken}"> verify Email</a>
                  <p>If you did not create an account, please ignore this email.</p>
                  <p>Best regards, <br>The Perplexity Team<p/>
         `
@@ -98,7 +98,7 @@ export async function login(req, res) {
         username: user.username,  
     }, process.env.JWT_SECRET, { expiresIn: '7d'})
 
-    res.cookie("token", token)
+    // res.cookie("token", token)
 
     // res.cookie("token", token, {
     //     httpOnly: true,     // can't access via JS (secure)
@@ -106,6 +106,13 @@ export async function login(req, res) {
     //     sameSite: "lax",   // cross-site (frontend 5173, backend 3000)
     //     maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
     // });
+
+    res.cookie("token", token, {
+         httpOnly: true,
+         secure: process.env.NODE_ENV === "production",
+         sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+         maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     res.status(200).json({
         message: "Login successfully",
@@ -189,8 +196,32 @@ export async function verifyEmail(req,res) {
 
 }
 
+// export const logout = async (req, res) => {
+
+
+//     // res.clearCookie("token");
+
+//     // return res.status(200).json({
+//     //     success: true,
+//     //     message: "Logged out successfully",
+//     // });
+
+//     res.clearCookie("token", {
+//          httpOnly: true,
+//          secure: process.env.NODE_ENV === "production",
+//          sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+//     });
+// };
+
+
+
+
 export const logout = async (req, res) => {
-    res.clearCookie("token");
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    });
 
     return res.status(200).json({
         success: true,

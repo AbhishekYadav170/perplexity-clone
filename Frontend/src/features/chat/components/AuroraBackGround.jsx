@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 
+
+
 const blobs = [
   {
     size: 450,

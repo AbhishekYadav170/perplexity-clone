@@ -6,7 +6,6 @@
 
 //   const chat = useChat()
 //   const { user } = useSelector(state => state.auth) // direct select karo
-  
 
 //   console.log(user)
 
@@ -21,16 +20,11 @@
 
 // export default Dashboard
 
-
-
-
-
 // import React, { useEffect, useState } from 'react'
 // import ReactMarkdown from 'react-markdown'
 // import { useSelector } from 'react-redux'
 // import { useChat } from '../hooks/useChat'
 // import remarkGfm from 'remark-gfm'
-
 
 // const Dashboard = () => {
 //   const chat = useChat()
@@ -136,123 +130,101 @@
 
 // export default Dashboard
 
-
-
-
-
-
-import React, { useEffect, useState } from 'react'
-import ReactMarkdown from 'react-markdown'
-import { useSelector } from 'react-redux'
-import { useChat } from '../hooks/useChat'
-import remarkGfm from 'remark-gfm'
+import React, { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import { useSelector } from "react-redux";
+import { useChat } from "../hooks/useChat";
+import remarkGfm from "remark-gfm";
 import Sidebar from "../components/Sidebar";
 import ChatInput from "../components/ChatInput";
 import Header from "../components/Header";
 import AuroraBackground from "../components/AuroraBackground";
+//import AuroraBackground from "../../../components/AuroraBackground";
 import MessageBubble from "../components/MessageBubble";
 import ChatWindow from "../components/ChatWindow";
 import ProfileModal from "../components/ProfileModal";
 import { useTheme } from "../../../context/ThemeContext";
 
-
-
 const Dashboard = () => {
-  const chat = useChat()
+  const chat = useChat();
   const { theme, toggleTheme } = useTheme();
-   //const dispatch = useDispatch();  
-  const [ chatInput, setChatInput ] = useState('')
+  //const dispatch = useDispatch();
+  const [chatInput, setChatInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showSettings, setShowSettings] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   //const [theme, setTheme] = useState("dark");
 
-  const chats = useSelector((state) => state.chat.chats)
-  const currentChatId = useSelector((state) => state.chat.currentChatId)
-
+  const chats = useSelector((state) => state.chat.chats);
+  const currentChatId = useSelector((state) => state.chat.currentChatId);
 
   useEffect(() => {
-    chat.initializeSocketConnection()
-    chat.handleGetChats()
-  }, [])
+    chat.initializeSocketConnection();
+    chat.handleGetChats();
+  }, []);
 
   const handleSubmitMessage = (event) => {
-    event.preventDefault()
+    event.preventDefault();
 
-    const trimmedMessage = chatInput.trim()
+    const trimmedMessage = chatInput.trim();
     if (!trimmedMessage) {
-      return
+      return;
     }
 
-    chat.handleSendMessage({ message: trimmedMessage, chatId: currentChatId })
-    setChatInput('')
-  }
+    chat.handleSendMessage({ message: trimmedMessage, chatId: currentChatId });
+    setChatInput("");
+  };
 
   const openChat = (chatId) => {
-    chat.handleOpenChat(chatId,chats)
-  }
+    chat.handleOpenChat(chatId, chats);
+  };
 
   return (
-    <main 
-        className={`min-h-screen w-full p-3 md:p-5 mx-auto flex transition-all duration-500 ${
-           theme === "dark"
-             ? "bg-[#07090f] text-white"
-             : "bg-gray-100 text-black"
-        }`}
+    <main
+      className={`min-h-screen w-full p-3 md:p-5 mx-auto flex transition-all duration-500 ${
+        theme === "dark" ? "bg-[#07090f] text-white" : "bg-gray-100 text-black"
+      }`}
     >
-      
-      <section className='mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border   p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none'>
+      <section className="mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border   p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none">
         <AuroraBackground />
         <Sidebar
-           chats={chats}
-           currentChatId={currentChatId}
-           openChat={openChat}
-            handleDeleteChat={chat.handleDeleteChat}
-            handleRenameChat={chat.handleRenameChat}
-            handleNewChat={chat.handleNewChat}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
-            setShowSettings={setShowSettings}
-            setShowProfile={setShowProfile}
-            // theme={theme}
-            // setTheme={setTheme}
+          chats={chats}
+          currentChatId={currentChatId}
+          openChat={openChat}
+          handleDeleteChat={chat.handleDeleteChat}
+          handleRenameChat={chat.handleRenameChat}
+          handleNewChat={chat.handleNewChat}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          setShowSettings={setShowSettings}
+          setShowProfile={setShowProfile}
+          // theme={theme}
+          // setTheme={setTheme}
         />
 
-        <section className='relative flex h-full flex-1 flex-col overflow-hidden '>
-
-          <div className='relative z-8'>
-            <Header 
-               searchQuery={searchQuery}
-               setSearchQuery={setSearchQuery}
-            />
+        <section className="relative flex h-full flex-1 flex-col overflow-hidden ">
+          <div className="relative z-8">
+            <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
           </div>
 
           <div className="flex-1 min-h-0 overflow-hidden">
-               <ChatWindow
-                   chats={chats}
-                   currentChatId={currentChatId}
-                />
+            <ChatWindow chats={chats} currentChatId={currentChatId} />
           </div>
 
-              <ChatInput
-                 chatInput={chatInput}
-                 setChatInput={setChatInput}
-                 handleSubmitMessage={handleSubmitMessage}
-              />
-          
+          <ChatInput
+            chatInput={chatInput}
+            setChatInput={setChatInput}
+            handleSubmitMessage={handleSubmitMessage}
+          />
         </section>
       </section>
       {showSettings && (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-    <div className="w-[520px] rounded-3xl border border-white/10 bg-[#0f172a] p-7 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="w-[520px] rounded-3xl border border-white/10 bg-[#0f172a] p-7 shadow-2xl">
+            <h2 className="mb-6 text-3xl font-bold text-white">⚙ Settings</h2>
 
-      <h2 className="mb-6 text-3xl font-bold text-white">
-        ⚙ Settings
-      </h2>
-      
-      <div className="space-y-6">
-
-        {/* <div>
+            <div className="space-y-6">
+              {/* <div>
           <h3 className="mb-2 text-lg font-semibold text-cyan-400">
             Appearance
           </h3>
@@ -265,7 +237,7 @@ const Dashboard = () => {
           </div>
         </div> */}
 
-        {/* <div>
+              {/* <div>
            <h3 className="mb-2 text-lg font-semibold text-cyan-400">
                   Appearance
            </h3>
@@ -297,118 +269,103 @@ const Dashboard = () => {
 
      </div>
         </div> */}
-        <div>
-  <h3 className="mb-2 text-lg font-semibold text-cyan-400">
-    Appearance
-  </h3>
+              <div>
+                <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+                  Appearance
+                </h3>
 
-  <div className=
-  //"rounded-xl bg-red-500 p-4 flex items-center justify-between"
-  "rounded-xl bg-white/5 p-4 flex items-center justify-between"
-  >
+                <div className=//"rounded-xl bg-red-500 p-4 flex items-center justify-between"
+                "rounded-xl bg-white/5 p-4 flex items-center justify-between">
+                  <div>
+                    <p className="text-white font-medium">Theme</p>
 
-    <div>
-      <p className="text-white font-medium">
-        Theme
-      </p>
+                    <p className="text-sm text-gray-400">
+                      Switch between Dark & Light mode
+                    </p>
+                  </div>
 
-      <p className="text-sm text-gray-400">
-        Switch between Dark & Light mode
-      </p>
-    </div>
+                  <button
+                    onClick={toggleTheme}
+                    className={`rounded-xl px-5 py-2 font-semibold transition ${
+                      theme === "dark"
+                        ? "bg-cyan-500 text-white"
+                        : "bg-yellow-400 text-black"
+                    }`}
+                  >
+                    {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
+                  </button>
 
-     <button
-      onClick={toggleTheme}
-      className={`rounded-xl px-5 py-2 font-semibold transition ${
-        theme === "dark"
-          ? "bg-cyan-500 text-white"
-          : "bg-yellow-400 text-black"
-      }`}
-    >
-      {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
-    </button>
-
-{/* <button
+                  {/* <button
   onClick={toggleTheme}
   className="bg-green-500 p-3"
 >
   CLICK ME
 </button> */}
-  </div>
-</div>
+                </div>
+              </div>
 
-        <div>
-          <h3 className="mb-2 text-lg font-semibold text-cyan-400">
-            AI Model
-          </h3>
+              <div>
+                <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+                  AI Model
+                </h3>
 
-          <div className="rounded-xl bg-white/5 p-4">
-            <p className="text-white">
-              Gemini Flash
-            </p>
+                <div className="rounded-xl bg-white/5 p-4">
+                  <p className="text-white">Gemini Flash</p>
 
-            <p className="text-sm text-gray-400">
-              Default AI Model
-            </p>
+                  <p className="text-sm text-gray-400">Default AI Model</p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+                  Chat
+                </h3>
+
+                <div className="rounded-xl bg-white/5 p-4 space-y-2">
+                  <p className="text-white">✅ Auto Scroll Enabled</p>
+
+                  <p className="text-white">✅ Code Highlight Enabled</p>
+                </div>
+              </div>
+
+              <div>
+                <h3 className="mb-2 text-lg font-semibold text-red-400">
+                  Danger Zone
+                </h3>
+
+                <button
+                  onClick={async () => {
+                    const confirmed = window.confirm(
+                      "Are you sure you want to delete all chats?",
+                    );
+
+                    if (!confirmed) return;
+
+                    await chat.handleClearChats();
+                  }}
+                  className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white hover:bg-red-700"
+                >
+                  Clear All Chats
+                </button>
+              </div>
+            </div>
+
+            <button
+              onClick={() => setShowSettings(false)}
+              className="mt-8 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700"
+            >
+              Close
+            </button>
           </div>
         </div>
-
-        <div>
-          <h3 className="mb-2 text-lg font-semibold text-cyan-400">
-            Chat
-          </h3>
-
-          <div className="rounded-xl bg-white/5 p-4 space-y-2">
-            <p className="text-white">
-              ✅ Auto Scroll Enabled
-            </p>
-
-            <p className="text-white">
-              ✅ Code Highlight Enabled
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <h3 className="mb-2 text-lg font-semibold text-red-400">
-            Danger Zone
-          </h3>
-
-          <button
-             onClick={async () => {
-                const confirmed = window.confirm(
-                  "Are you sure you want to delete all chats?"
-                );
-
-                if (!confirmed) return;
-
-               await chat.handleClearChats();
-             }}
-            className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white hover:bg-red-700"
-          >
-            Clear All Chats
-          </button>
-        </div>
-
-      </div>
-
-      <button
-        onClick={() => setShowSettings(false)}
-        className="mt-8 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700"
-      >
-        Close
-      </button>
-
-    </div>
-  </div>
-)}
+      )}
       <ProfileModal
-          open={showProfile}
-          onClose={() => setShowProfile(false)}
-          chats={chats}
+        open={showProfile}
+        onClose={() => setShowProfile(false)}
+        chats={chats}
       />
     </main>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

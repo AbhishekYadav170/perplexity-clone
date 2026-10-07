@@ -139,7 +139,6 @@ import Sidebar from "../components/Sidebar";
 import ChatInput from "../components/ChatInput";
 import Header from "../components/Header";
 import AuroraBackground from "../components/AuroraBackground";
-//import AuroraBackground from "../../../components/AuroraBackground";
 import MessageBubble from "../components/MessageBubble";
 import ChatWindow from "../components/ChatWindow";
 import ProfileModal from "../components/ProfileModal";

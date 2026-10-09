@@ -222,17 +222,50 @@ export function useAuth() {
         }
     }
 
-    async function handleLogin({ email, password }) {
-        try {
-            dispatch(setLoading(true))
-            const data = await login({ email, password })
-            dispatch(setUser(data.user))
-        } catch (err) {
-            dispatch(setError(err.response?.data?.message || "Login failed"))
-        } finally {
-            dispatch(setLoading(false))
+    // async function handleLogin({ email, password }) {
+    //     try {
+    //         dispatch(setLoading(true))
+    //         const data = await login({ email, password })
+    //         dispatch(setUser(data.user))
+    //     } catch (err) {
+    //         dispatch(setError(err.response?.data?.message || "Login failed"))
+    //     } finally {
+    //         dispatch(setLoading(false))
+    //     }
+    // }
+
+    
+async function handleLogin({ email, password }) {
+    try {
+        dispatch(setLoading(true));
+        dispatch(setError(null));
+
+        const data = await login({ email, password });
+
+        if (!data.token) {
+            throw new Error("Login response does not contain a token");
         }
+
+        localStorage.setItem("token", data.token);
+
+        if (localStorage.getItem("token") !== data.token) {
+            throw new Error("Failed to save login token");
+        }
+
+        dispatch(setUser(data.user));
+    } catch (err) {
+        dispatch(
+            setError(
+                err.response?.data?.message ||
+                err.message ||
+                "Login failed"
+            )
+        );
+    } finally {
+        dispatch(setLoading(false));
     }
+}
+
 
     async function handleGetMe() {
         try {

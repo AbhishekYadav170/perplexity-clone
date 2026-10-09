@@ -130,16 +130,258 @@
 
 // export default Dashboard
 
-import React, { useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
+
+
+// import React, { useEffect, useState } from "react";
+// import ReactMarkdown from "react-markdown";
+// import { useSelector } from "react-redux";
+// import { useChat } from "../hooks/useChat";
+// import remarkGfm from "remark-gfm";
+// import Sidebar from "../components/Sidebar";
+// import ChatInput from "../components/ChatInput";
+// import Header from "../components/Header";
+// import AuroraBackground from "../components/AuroraBackGround";
+// import MessageBubble from "../components/MessageBubble";
+// import ChatWindow from "../components/ChatWindow";
+// import ProfileModal from "../components/ProfileModal";
+// import { useTheme } from "../../../context/ThemeContext";
+
+// const Dashboard = () => {
+//   const chat = useChat();
+//   const { theme, toggleTheme } = useTheme();
+//   //const dispatch = useDispatch();
+//   const [chatInput, setChatInput] = useState("");
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [showSettings, setShowSettings] = useState(false);
+//   const [showProfile, setShowProfile] = useState(false);
+//   //const [theme, setTheme] = useState("dark");
+
+//   const chats = useSelector((state) => state.chat.chats);
+//   const currentChatId = useSelector((state) => state.chat.currentChatId);
+
+//   useEffect(() => {
+//     chat.initializeSocketConnection();
+//     chat.handleGetChats();
+//   }, []);
+
+//   const handleSubmitMessage = (event) => {
+//     event.preventDefault();
+
+//     const trimmedMessage = chatInput.trim();
+//     if (!trimmedMessage) {
+//       return;
+//     }
+
+//     chat.handleSendMessage({ message: trimmedMessage, chatId: currentChatId });
+//     setChatInput("");
+//   };
+
+//   const openChat = (chatId) => {
+//     chat.handleOpenChat(chatId, chats);
+//   };
+
+//   return (
+//     <main
+//       className={`min-h-screen w-full p-3 md:p-5 mx-auto flex transition-all duration-500 ${
+//         theme === "dark" ? "bg-[#07090f] text-white" : "bg-gray-100 text-black"
+//       }`}
+//     >
+//       <section className="mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border   p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none">
+//         <AuroraBackground />
+//         <Sidebar
+//           chats={chats}
+//           currentChatId={currentChatId}
+//           openChat={openChat}
+//           handleDeleteChat={chat.handleDeleteChat}
+//           handleRenameChat={chat.handleRenameChat}
+//           handleNewChat={chat.handleNewChat}
+//           searchQuery={searchQuery}
+//           setSearchQuery={setSearchQuery}
+//           setShowSettings={setShowSettings}
+//           setShowProfile={setShowProfile}
+//           // theme={theme}
+//           // setTheme={setTheme}
+//         />
+
+//         <section className="relative flex h-full flex-1 flex-col overflow-hidden ">
+//           <div className="relative z-8">
+//             <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+//           </div>
+
+//           <div className="flex-1 min-h-0 overflow-hidden">
+//             <ChatWindow chats={chats} currentChatId={currentChatId} />
+//           </div>
+
+//           <ChatInput
+//             chatInput={chatInput}
+//             setChatInput={setChatInput}
+//             handleSubmitMessage={handleSubmitMessage}
+//           />
+//         </section>
+//       </section>
+//       {showSettings && (
+//         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+//           <div className="w-[520px] rounded-3xl border border-white/10 bg-[#0f172a] p-7 shadow-2xl">
+//             <h2 className="mb-6 text-3xl font-bold text-white">⚙ Settings</h2>
+
+//             <div className="space-y-6">
+//               {/* <div>
+//           <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+//             Appearance
+//           </h3>
+
+//           <div className="rounded-xl bg-white/5 p-4">
+//             <p className="text-white">Theme</p>
+//             <p className="text-sm text-gray-400">
+//               Dark Mode
+//             </p>
+//           </div>
+//         </div> */}
+
+//               {/* <div>
+//            <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+//                   Appearance
+//            </h3>
+
+//        <div className="flex items-center justify-between rounded-xl bg-white/5 p-4">
+
+//         <div>
+//           <p className="text-white">
+//             Theme
+//          </p>
+
+//          <p className="text-sm text-gray-400">
+//              Switch between Dark & Light mode
+//         </p>
+//      </div>
+
+//       <button
+//          onClick={toggleTheme}
+//         //  {() =>
+//         //    //setTheme(theme === "dark" ? "light" : "dark")
+           
+//         //   }
+//        className="rounded-xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
+//        >
+//          {theme === "dark"
+//          ? "🌙 Dark"
+//          : "☀️ Light"}
+//      </button>
+
+//      </div>
+//         </div> */}
+//               <div>
+//                 <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+//                   Appearance
+//                 </h3>
+
+//                 <div className=//"rounded-xl bg-red-500 p-4 flex items-center justify-between"
+//                 "rounded-xl bg-white/5 p-4 flex items-center justify-between">
+//                   <div>
+//                     <p className="text-white font-medium">Theme</p>
+
+//                     <p className="text-sm text-gray-400">
+//                       Switch between Dark & Light mode
+//                     </p>
+//                   </div>
+
+//                   <button
+//                     onClick={toggleTheme}
+//                     className={`rounded-xl px-5 py-2 font-semibold transition ${
+//                       theme === "dark"
+//                         ? "bg-cyan-500 text-white"
+//                         : "bg-yellow-400 text-black"
+//                     }`}
+//                   >
+//                     {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
+//                   </button>
+
+//                   {/* <button
+//   onClick={toggleTheme}
+//   className="bg-green-500 p-3"
+// >
+//   CLICK ME
+// </button> */}
+//                 </div>
+//               </div>
+
+//               <div>
+//                 <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+//                   AI Model
+//                 </h3>
+
+//                 <div className="rounded-xl bg-white/5 p-4">
+//                   <p className="text-white">Gemini Flash</p>
+
+//                   <p className="text-sm text-gray-400">Default AI Model</p>
+//                 </div>
+//               </div>
+
+//               <div>
+//                 <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+//                   Chat
+//                 </h3>
+
+//                 <div className="rounded-xl bg-white/5 p-4 space-y-2">
+//                   <p className="text-white">✅ Auto Scroll Enabled</p>
+
+//                   <p className="text-white">✅ Code Highlight Enabled</p>
+//                 </div>
+//               </div>
+
+//               <div>
+//                 <h3 className="mb-2 text-lg font-semibold text-red-400">
+//                   Danger Zone
+//                 </h3>
+
+//                 <button
+//                   onClick={async () => {
+//                     const confirmed = window.confirm(
+//                       "Are you sure you want to delete all chats?",
+//                     );
+
+//                     if (!confirmed) return;
+
+//                     await chat.handleClearChats();
+//                   }}
+//                   className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white hover:bg-red-700"
+//                 >
+//                   Clear All Chats
+//                 </button>
+//               </div>
+//             </div>
+
+//             <button
+//               onClick={() => setShowSettings(false)}
+//               className="mt-8 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700"
+//             >
+//               Close
+//             </button>
+//           </div>
+//         </div>
+//       )}
+//       <ProfileModal
+//         open={showProfile}
+//         onClose={() => setShowProfile(false)}
+//         chats={chats}
+//       />
+//     </main>
+//   );
+// };
+
+// export default Dashboard;
+
+
+
+
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+
 import { useChat } from "../hooks/useChat";
-import remarkGfm from "remark-gfm";
 import Sidebar from "../components/Sidebar";
 import ChatInput from "../components/ChatInput";
 import Header from "../components/Header";
 import AuroraBackground from "../components/AuroraBackGround";
-import MessageBubble from "../components/MessageBubble";
 import ChatWindow from "../components/ChatWindow";
 import ProfileModal from "../components/ProfileModal";
 import { useTheme } from "../../../context/ThemeContext";
@@ -147,217 +389,264 @@ import { useTheme } from "../../../context/ThemeContext";
 const Dashboard = () => {
   const chat = useChat();
   const { theme, toggleTheme } = useTheme();
-  //const dispatch = useDispatch();
+
   const [chatInput, setChatInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showSettings, setShowSettings] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-  //const [theme, setTheme] = useState("dark");
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   const chats = useSelector((state) => state.chat.chats);
   const currentChatId = useSelector((state) => state.chat.currentChatId);
 
+  // Initialize the socket and load the user's chat history.
   useEffect(() => {
     chat.initializeSocketConnection();
     chat.handleGetChats();
+
+    // Keep the original chat hook lifecycle unchanged.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Close the mobile sidebar with Escape.
+  useEffect(() => {
+    if (!isMobileOpen) return undefined;
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        setIsMobileOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isMobileOpen]);
 
   const handleSubmitMessage = (event) => {
     event.preventDefault();
 
-    const trimmedMessage = chatInput.trim();
-    if (!trimmedMessage) {
-      return;
-    }
+    const message = chatInput.trim();
 
-    chat.handleSendMessage({ message: trimmedMessage, chatId: currentChatId });
+    if (!message) return;
+
+    chat.handleSendMessage({
+      message,
+      chatId: currentChatId,
+    });
+
     setChatInput("");
   };
 
-  const openChat = (chatId) => {
+  const handleOpenChat = (chatId) => {
     chat.handleOpenChat(chatId, chats);
+    setIsMobileOpen(false);
+  };
+
+  const handleNewChat = () => {
+    chat.handleNewChat();
+    setChatInput("");
+    setIsMobileOpen(false);
+  };
+
+  const handleClearChats = async () => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete all chats? This action cannot be undone."
+    );
+
+    if (!confirmed) return;
+
+    try {
+      await chat.handleClearChats();
+      setShowSettings(false);
+      setChatInput("");
+    } catch (error) {
+      console.error("Failed to clear chats:", error);
+    }
   };
 
   return (
     <main
-      className={`min-h-screen w-full p-3 md:p-5 mx-auto flex transition-all duration-500 ${
-        theme === "dark" ? "bg-[#07090f] text-white" : "bg-gray-100 text-black"
+      className={`h-[100dvh] w-full overflow-hidden p-2 transition-colors duration-300 sm:p-3 lg:p-4 ${
+        theme === "dark"
+          ? "bg-[#07090f] text-white"
+          : "bg-gray-100 text-gray-900"
       }`}
     >
-      <section className="mx-auto flex h-[calc(100vh-1.5rem)] w-full gap-4 rounded-3xl border   p-1 md:h-[calc(100vh-2.5rem)] md:gap-6 md:p-1 border-none">
+      <section className="relative mx-auto flex h-full w-full min-w-0 gap-0 overflow-hidden rounded-2xl sm:rounded-3xl lg:gap-4">
         <AuroraBackground />
+
+        {/* Desktop sidebar and mobile slide-out drawer */}
         <Sidebar
           chats={chats}
           currentChatId={currentChatId}
-          openChat={openChat}
+          openChat={handleOpenChat}
           handleDeleteChat={chat.handleDeleteChat}
           handleRenameChat={chat.handleRenameChat}
-          handleNewChat={chat.handleNewChat}
+          handleNewChat={handleNewChat}
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           setShowSettings={setShowSettings}
           setShowProfile={setShowProfile}
-          // theme={theme}
-          // setTheme={setTheme}
+          isMobileOpen={isMobileOpen}
+          onClose={() => setIsMobileOpen(false)}
         />
 
-        <section className="relative flex h-full flex-1 flex-col overflow-hidden ">
-          <div className="relative z-8">
-            <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        {/* Main chat area */}
+        <section className="relative z-10 flex h-full min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+          <header className="relative z-20 shrink-0">
+            <Header
+              searchQuery={searchQuery}
+              setSearchQuery={setSearchQuery}
+              onMenuClick={() => setIsMobileOpen(true)}
+            />
+          </header>
+
+          {/* Messages take the available space and scroll independently */}
+          <div className="min-h-0 min-w-0 flex-1 overflow-hidden">
+            <ChatWindow
+              chats={chats}
+              currentChatId={currentChatId}
+            />
           </div>
 
-          <div className="flex-1 min-h-0 overflow-hidden">
-            <ChatWindow chats={chats} currentChatId={currentChatId} />
+          {/* Keep the input visible at the bottom */}
+          <div className="z-10 shrink-0 pt-2 sm:pt-3">
+            <ChatInput
+              chatInput={chatInput}
+              setChatInput={setChatInput}
+              handleSubmitMessage={handleSubmitMessage}
+            />
           </div>
-
-          <ChatInput
-            chatInput={chatInput}
-            setChatInput={setChatInput}
-            handleSubmitMessage={handleSubmitMessage}
-          />
         </section>
       </section>
+
+      {/* Settings modal */}
       {showSettings && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-          <div className="w-[520px] rounded-3xl border border-white/10 bg-[#0f172a] p-7 shadow-2xl">
-            <h2 className="mb-6 text-3xl font-bold text-white">⚙ Settings</h2>
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-black/70 p-3 backdrop-blur-sm sm:p-5"
+          onClick={(event) => {
+            if (event.target === event.currentTarget) {
+              setShowSettings(false);
+            }
+          }}
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="settings-title"
+            className="my-auto max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-2xl border border-white/10 bg-[#0f172a] p-4 shadow-2xl sm:rounded-3xl sm:p-7"
+          >
+            <div className="mb-6 flex items-center justify-between gap-3">
+              <h2
+                id="settings-title"
+                className="text-2xl font-bold text-white sm:text-3xl"
+              >
+                Settings
+              </h2>
+
+              <button
+                type="button"
+                onClick={() => setShowSettings(false)}
+                aria-label="Close settings"
+                className="rounded-lg px-3 py-2 text-gray-300 transition hover:bg-white/10 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
 
             <div className="space-y-6">
-              {/* <div>
-          <h3 className="mb-2 text-lg font-semibold text-cyan-400">
-            Appearance
-          </h3>
-
-          <div className="rounded-xl bg-white/5 p-4">
-            <p className="text-white">Theme</p>
-            <p className="text-sm text-gray-400">
-              Dark Mode
-            </p>
-          </div>
-        </div> */}
-
-              {/* <div>
-           <h3 className="mb-2 text-lg font-semibold text-cyan-400">
-                  Appearance
-           </h3>
-
-       <div className="flex items-center justify-between rounded-xl bg-white/5 p-4">
-
-        <div>
-          <p className="text-white">
-            Theme
-         </p>
-
-         <p className="text-sm text-gray-400">
-             Switch between Dark & Light mode
-        </p>
-     </div>
-
-      <button
-         onClick={toggleTheme}
-        //  {() =>
-        //    //setTheme(theme === "dark" ? "light" : "dark")
-           
-        //   }
-       className="rounded-xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700"
-       >
-         {theme === "dark"
-         ? "🌙 Dark"
-         : "☀️ Light"}
-     </button>
-
-     </div>
-        </div> */}
-              <div>
-                <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+              {/* Appearance */}
+              <section>
+                <h3 className="mb-3 font-semibold text-cyan-400">
                   Appearance
                 </h3>
 
-                <div className=//"rounded-xl bg-red-500 p-4 flex items-center justify-between"
-                "rounded-xl bg-white/5 p-4 flex items-center justify-between">
-                  <div>
-                    <p className="text-white font-medium">Theme</p>
-
-                    <p className="text-sm text-gray-400">
-                      Switch between Dark & Light mode
+                <div className="flex items-center justify-between gap-3 rounded-xl bg-white/5 p-4">
+                  <div className="min-w-0">
+                    <p className="font-medium text-white">Theme</p>
+                    <p className="mt-1 text-sm text-gray-400">
+                      Switch between dark and light mode.
                     </p>
                   </div>
 
                   <button
+                    type="button"
                     onClick={toggleTheme}
-                    className={`rounded-xl px-5 py-2 font-semibold transition ${
+                    className={`shrink-0 rounded-xl px-3 py-2 text-sm font-semibold transition sm:px-4 ${
                       theme === "dark"
-                        ? "bg-cyan-500 text-white"
-                        : "bg-yellow-400 text-black"
+                        ? "bg-cyan-500 text-white hover:bg-cyan-400"
+                        : "bg-yellow-400 text-gray-900 hover:bg-yellow-300"
                     }`}
                   >
-                    {theme === "dark" ? "🌙 Dark" : "☀️ Light"}
+                    {theme === "dark" ? "Dark mode" : "Light mode"}
                   </button>
-
-                  {/* <button
-  onClick={toggleTheme}
-  className="bg-green-500 p-3"
->
-  CLICK ME
-</button> */}
                 </div>
-              </div>
+              </section>
 
-              <div>
-                <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+              {/* AI model */}
+              <section>
+                <h3 className="mb-3 font-semibold text-cyan-400">
                   AI Model
                 </h3>
 
                 <div className="rounded-xl bg-white/5 p-4">
-                  <p className="text-white">Gemini Flash</p>
-
-                  <p className="text-sm text-gray-400">Default AI Model</p>
+                  <p className="font-medium text-white">Gemini Flash</p>
+                  <p className="mt-1 text-sm text-gray-400">
+                    Default AI model.
+                  </p>
                 </div>
-              </div>
+              </section>
 
-              <div>
-                <h3 className="mb-2 text-lg font-semibold text-cyan-400">
+              {/* Chat settings */}
+              <section>
+                <h3 className="mb-3 font-semibold text-cyan-400">
                   Chat
                 </h3>
 
-                <div className="rounded-xl bg-white/5 p-4 space-y-2">
-                  <p className="text-white">✅ Auto Scroll Enabled</p>
-
-                  <p className="text-white">✅ Code Highlight Enabled</p>
+                <div className="space-y-3 rounded-xl bg-white/5 p-4 text-sm text-gray-200">
+                  <p>Auto-scroll is enabled.</p>
+                  <p>Markdown rendering is enabled.</p>
+                  <p>Chat history is available from the sidebar.</p>
                 </div>
-              </div>
+              </section>
 
-              <div>
-                <h3 className="mb-2 text-lg font-semibold text-red-400">
+              {/* Danger zone */}
+              <section>
+                <h3 className="mb-3 font-semibold text-red-400">
                   Danger Zone
                 </h3>
 
-                <button
-                  onClick={async () => {
-                    const confirmed = window.confirm(
-                      "Are you sure you want to delete all chats?",
-                    );
+                <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-4">
+                  <p className="mb-3 text-sm text-gray-300">
+                    Delete your saved chats from the chat history.
+                  </p>
 
-                    if (!confirmed) return;
-
-                    await chat.handleClearChats();
-                  }}
-                  className="w-full rounded-xl bg-red-600 py-3 font-semibold text-white hover:bg-red-700"
-                >
-                  Clear All Chats
-                </button>
-              </div>
+                  <button
+                    type="button"
+                    onClick={handleClearChats}
+                    className="w-full rounded-xl bg-red-600 px-4 py-3 font-semibold text-white transition hover:bg-red-700"
+                  >
+                    Clear All Chats
+                  </button>
+                </div>
+              </section>
             </div>
 
             <button
+              type="button"
               onClick={() => setShowSettings(false)}
-              className="mt-8 w-full rounded-xl bg-blue-600 py-3 font-semibold text-white hover:bg-blue-700"
+              className="mt-6 w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white transition hover:bg-blue-700"
             >
-              Close
+              Done
             </button>
-          </div>
+          </section>
         </div>
       )}
+
+      {/* Profile modal */}
       <ProfileModal
         open={showProfile}
         onClose={() => setShowProfile(false)}
